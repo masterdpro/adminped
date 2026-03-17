@@ -1,22 +1,74 @@
+<!doctype html>
+<html lang="fr">
 <head>
-    <title>Adminped1!</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adminped1!</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="media/VERT_image0.png" />
 </head>
+<body>
+    <main class="container">
+        <h1 class="title">adminped.com</h1>
 
-<p class="title">
-    <strong>adminped.com</strong>
-</p>
-<p class="subtitle">Adminped1!</p>
-<p class="author">auteur:Yvon Bourdeau</p>
-<p>
-    <img
-        class="centered-image"
-        src="https://i.imgur.com/ZY10D7N.jpeg"
-        alt="daniel sur mario kart"
-        width="500"
-        height="500"
-    />
-</p>
+        <section class="password-card" aria-label="Mots de passe principaux">
+            <h2 class="card-title">Accès principal</h2>
+
+            <div class="credential-row">
+                <p id="password-main" class="credential-value">Adminped1!</p>
+                <button class="copy-button" data-copy-target="password-main" type="button">
+                    Copier
+                </button>
+            </div>
+
+            <div class="credential-row">
+                <p id="password-author" class="credential-value">auteur:Yvon Bourdeau</p>
+                <button class="copy-button" data-copy-target="password-author" type="button">
+                    Copier
+                </button>
+            </div>
+
+            <p id="copy-feedback" class="copy-feedback" aria-live="polite"></p>
+        </section>
+
+        <img
+            class="centered-image"
+            src="https://i.imgur.com/ZY10D7N.jpeg"
+            alt="daniel sur mario kart"
+            width="500"
+            height="500"
+        />
+    </main>
+
+    <script>
+        const feedback = document.getElementById('copy-feedback');
+
+        function setFeedback(message) {
+            feedback.textContent = message;
+        }
+
+        async function copyTextFromTarget(targetId) {
+            const source = document.getElementById(targetId);
+            const value = source?.textContent?.trim() || '';
+
+            if (!value) {
+                setFeedback('Impossible de copier cette valeur.');
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(value);
+                setFeedback(`Copié : ${value}`);
+            } catch (error) {
+                setFeedback('La copie automatique a échoué.');
+            }
+        }
+
+        document.querySelectorAll('.copy-button').forEach((button) => {
+            button.addEventListener('click', () => {
+                copyTextFromTarget(button.dataset.copyTarget);
+            });
+        });
+    </script>
+</body>
+</html>
